@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Add a flat
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+  <form method="post">
+    <label for="name">Flat name:</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      placeholder=""
+      required
+    >
+    <br>
+    <label for="address">Flat address:</label>
+    <input
+      id="address"
+      name="address"
+      type="text"
+      placeholder=""
+    >
+    <br>
+    <label for="electricity_t1">Electricity:</label>
+    <input
+      id="electricity_t1"
+      name="electricity_t1"
+      type="text"
+      placeholder=""
+    >
+    <br>
+    <label for="hot_water">Hot water:</label>
+    <input
+      id="hot_water"
+      name="hot_water"
+      type="text"
+      placeholder=""
+    >
+    <br>
+    <label for="cold_water">Cold water:</label>
+    <input
+      id="cold_water"
+      name="cold_water"
+      type="text"
+      placeholder=""
+    >
+    <br>
+    <input id="submit-id" type="submit" value="Create">
+  </form>
+
+  <hr>
+  <a href="{{ url_for('flat_app.list') }}">back to flats list</a>
+
+{% endblock %}

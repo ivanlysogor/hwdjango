@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Products list
+{% endblock %}
+
+
+{% block body %}
+  <h1>Flats list</h1>
+
+  <div>
+    <ul>
+      {% for f in flats %}
+        <li>
+          <a href="">{{ f.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <a href="">Add a flat</a>
+  </div>
+{% endblock %}

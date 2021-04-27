@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+
+  flatdb:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_DB: flats
+    ports:
+      - 5432:5432
+
+  flatapp:
+    image: flatapp
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    command: python flatapp/manage.py runserver 0.0.0.0:8000
+    environment:
+      PG_USER: ${PG_USER}
+      PG_PASS: ${PG_PASS}
+      PG_HOST: flatdb
+      SQLALCHEMY_DATABASE_URI: "postgresql://${PG_USER}:${PG_PASS}@flatdb/flats"
+    ports:
+      - 8000:8000
+    depends_on:
+      -  flatdb
