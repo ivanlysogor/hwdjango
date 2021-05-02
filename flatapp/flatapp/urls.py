@@ -16,13 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from flats.views import index_view
+from flats.views import index_view, FlatListView, \
+    AboutTemplateView, FlatCreateView, FlatDeleteView, FlatUpdateView
 import debug_toolbar
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view),
-    path('flats/', index_view),
+    path('flats/', FlatListView.as_view()),
+    path('create/', FlatCreateView.as_view()),
+    path('update/<int:pk>/', FlatUpdateView.as_view()),
+    path('delete/<int:pk>/', FlatDeleteView.as_view()),
+    path('about/', AboutTemplateView.as_view()),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

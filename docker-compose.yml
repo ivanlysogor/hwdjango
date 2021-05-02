@@ -17,6 +17,8 @@ services:
     restart: always
     build:
       dockerfile: Dockerfile
+    volumes:
+      - ./flatapp:/var/app/flatapp
     command: python flatapp/manage.py runserver 0.0.0.0:8000
     environment:
       PG_USER: ${PG_USER}

@@ -10,14 +10,14 @@
 
   <div>
     <ul>
-      {% for f in flats %}
+      {% for f in object_list %}
         <li>
-          <a href="">{{ f.name }}</a>
+          <a href="/update/{{ f.id }}/">{{ f.name }}</a>
         </li>
       {% endfor %}
     </ul>
   </div>
   <div>
-    <a href="">Add a flat</a>
+    <a href="/create/">Add a flat</a>
   </div>
 {% endblock %}
