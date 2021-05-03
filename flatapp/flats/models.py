@@ -8,3 +8,5 @@ class Flat(models.Model):
     hot_water = models.IntegerField()
     cold_water = models.IntegerField()
 
+    def flat_count(self):
+        return Flat.objects.count()

@@ -3,9 +3,27 @@
 A Flat
 {% endblock %}
 {% block body %}
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">Update</button>
-</form>
+  <div class="row">
+          <div class="col-md-6 themed-grid-col">Name</div>
+          <div class="col-md-6 themed-grid-col">{{object.name}}</div>
+   </div>
+   <div class="row">
+          <div class="col-md-6 themed-grid-col">Address</div>
+          <div class="col-md-6 themed-grid-col">{{object.address}}</div>
+   </div>
+   <div class="row">
+          <div class="col-md-6 themed-grid-col">Electricity T1</div>
+          <div class="col-md-6 themed-grid-col">{{object.electricity_t1}}</div>
+   </div>
+   <div class="row">
+          <div class="col-md-6 themed-grid-col">Hot water</div>
+          <div class="col-md-6 themed-grid-col">{{object.hot_water}}</div>
+   </div>
+   <div class="row">
+          <div class="col-md-6 themed-grid-col">Cold water</div>
+          <div class="col-md-6 themed-grid-col">{{object.cold_water}}</div>
+   </div>
+  <div>
+    <a href="/flats/">Back to flats list</a>
+  </div>
 {% endblock %}

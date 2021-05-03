@@ -39,12 +39,18 @@ class FlatCreateView(CreateView):
 
 class FlatUpdateView(UpdateView):
     model = Flat
-    template_name = 'flats/flat.html'
+    template_name = 'flats/update.html'
     success_url = '/'
     form_class = FlatForm
+
 
 class FlatDeleteView(DeleteView):
     model = Flat
     success_url = '/'
     # страница для подтверждения удаления
     template_name = 'flats/delete_confirm.html'
+
+
+class FlatDetailView(DetailView):
+    model = Flat
+    template_name = 'flats/flat.html'
