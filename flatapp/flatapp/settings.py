@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'flats',
-        'USER' : PG_USER,
-        'PASSWORD' : PG_PASS,
-        'HOST' : PG_HOST,
-        'PORT' : '5432',
+        'USER': PG_USER,
+        'PASSWORD': PG_PASS,
+        'HOST': PG_HOST,
+        'PORT': '5432',
     }
 }
 

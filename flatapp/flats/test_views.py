@@ -31,11 +31,9 @@ class TestFlatUpdateView(TestCase):
                                       electricity_t1=1,
                                       hot_water=1, cold_water=1).id
 
-
     def tearDown(self):
         print('Tests flat update view teardown')
 
     def test_update(self):
         response = self.client.get(f'/update/{self.id}/')
         self.assertEqual(response.status_code, 200)
-

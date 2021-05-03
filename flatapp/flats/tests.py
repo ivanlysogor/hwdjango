@@ -18,11 +18,9 @@ class TestFlat(TestCase):
         self.assertEqual(self.flat.flat_count(), 1)
 
     def test_count(self):
-        flat_new = Flat.objects.create(name='test_flat',
-                                   address='Test address',
-                                   electricity_t1=1,
-                                   hot_water=1,
-                                   cold_water=1)
+        Flat.objects.create(name='test_flat',
+                            address='Test address',
+                            electricity_t1=1,
+                            hot_water=1,
+                            cold_water=1)
         self.assertEqual(self.flat.flat_count(), 2)
-
-
