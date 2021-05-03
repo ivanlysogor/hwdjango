@@ -14,7 +14,8 @@ class TestFlatListView(TestCase):
     def test_context(self):
         response = self.client.get('/flats/')
         self.assertIn('contact_info', response.context)
-        self.assertEqual(response.context['contact_info'], 'ilysogor@gmail.com')
+        self.assertEqual(response.context['contact_info'],
+                         'ilysogor@gmail.com')
 
     def test_status_code(self):
         response = self.client.get('/flats/')
