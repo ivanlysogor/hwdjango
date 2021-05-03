@@ -11,13 +11,18 @@ class TestFlatListView(TestCase):
     def tearDown(self):
         print('Tests flat list view teardown')
 
+    def test_context(self):
+        response = self.client.get('/flats/')
+        self.assertIn('contact_info', response.context)
+        self.assertEqual(response.context['contact_info'], 'ilysogor@gmail.com')
+
     def test_status_code(self):
-        response = self.client.get('/')
+        response = self.client.get('/flats/')
         self.assertEqual(response.status_code, 200)
 
     def test_content(self):
         # client = Client()
-        response = self.client.get('/')
+        response = self.client.get('/flats/')
         # print(response.content)
         self.assertIn('Add a flat', response.content.decode(encoding='utf-8'))
 

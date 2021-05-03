@@ -15,6 +15,12 @@ def index_view(request):
 
 
 class FlatListView(ListView):
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['contact_info'] = 'ilysogor@gmail.com'
+        return context
+
     model = Flat
     template_name = 'flats/index.html'
 
