@@ -13,6 +13,7 @@ class TestFlat(TestCase):
 
     def tearDown(self):
         print('Tests flat teardown')
+        self.flat.delete()
 
     def test_count_initial(self):
         self.assertEqual(self.flat.flat_count(), 1)
