@@ -16,13 +16,13 @@ services:
     restart: always
     image: "rabbitmq:3-management"
     environment:
-      RABBITMQ_NODENAME: "rabbit@localhost"
+      RABBITMQ_NODENAME: "flatrabbit"
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-      RABBIT_USER: ${RABBIT_USER}
-      RABBIT_PASS: ${RABBIT_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS}
       RABBITMQ_DEFAULT_VHOST: "/"
     ports:
-      - "15672:15672"
+      - "5672:5672"
 
   flatapp:
     image: flatapp

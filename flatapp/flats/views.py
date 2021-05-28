@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory
 from .models import Flat, Meter, MeterType, MeterValues, Provider
 from .forms import FlatForm, MeterForm, MeterValueForm
+from .tasks import send_meter_values
 
 
 def index_view(request):
@@ -158,6 +159,7 @@ class FlatUpdateView(UpdateView):
                                            mv_v2=v2,
                                            mv_v3=v3)
                 meter_values.save()
+                send_meter_values(meter.pk, v1, v2, v3)
 
         return super(FlatUpdateView, self).post(request, **kwargs)
 
