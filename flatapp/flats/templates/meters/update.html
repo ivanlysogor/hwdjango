@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+A Meter value update
+{% endblock %}
+{% block body %}
+<br><div><h2>A Meter Value</h2></div><br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'form_snippet.html' with form=form %}
+    <br><div><h2>Meter values</h2></div><br>
+    {{ metervaluesformset.as_p }}
+    <br><button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}

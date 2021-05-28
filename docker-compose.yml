@@ -12,10 +12,25 @@ services:
     ports:
       - 5432:5432
 
+  flatrabbit:
+    restart: always
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_NODENAME: "rabbit@localhost"
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASS: ${RABBIT_PASS}
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+
   flatapp:
     image: flatapp
     restart: always
     build:
+      context: .
+      args:
+        ENTRY_POINT_SCRIPT: entrypoint.sh
       dockerfile: Dockerfile
     volumes:
       - ./flatapp:/var/app/flatapp
@@ -24,8 +39,37 @@ services:
       PG_USER: ${PG_USER}
       PG_PASS: ${PG_PASS}
       PG_HOST: flatdb
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASS: ${RABBIT_PASS}
       SQLALCHEMY_DATABASE_URI: "postgresql://${PG_USER}:${PG_PASS}@flatdb/flats"
     ports:
       - 8000:8000
     depends_on:
       -  flatdb
+
+
+  flatcelery:
+    image: flatcelery
+    restart: always
+    build:
+      context: .
+      args:
+        ENTRY_POINT_SCRIPT: entrypoint_celery.sh
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./flatapp:/var/app/flatapp
+    environment:
+      PG_USER: ${PG_USER}
+      PG_PASS: ${PG_PASS}
+      PG_HOST: flatdb
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASS: ${RABBIT_PASS}
+      SQLALCHEMY_DATABASE_URI: "postgresql://${PG_USER}:${PG_PASS}@flatdb/flats"
+    ports:
+        - "5555:5555"
+    command: bash -c " \
+      cd /var/app/flatapp ; \
+      celery -A flatapp worker -l INFO"
+    depends_on:
+        - flatrabbit
+        - flatdb

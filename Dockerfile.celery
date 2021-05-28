@@ -12,8 +12,8 @@ COPY . .
 
 RUN poetry install --no-interaction --no-ansi
 
-RUN chmod +x $ENTRY_POINT_SCRIPT
+RUN chmod +x entrypoint_celery.sh
 
 EXPOSE 8000
 
-ENTRYPOINT ["bash", "./$ENTRY_POINT_SCRIPT"]
+ENTRYPOINT ["bash", "./entrypoint_celery.sh"]

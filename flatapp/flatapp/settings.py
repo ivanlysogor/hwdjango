@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +27,12 @@ SECRET_KEY = 'django-insecure-0h#=3u^g2qdt26sihq0i*%ru5#1#=iti)si7ue_zo!v4f_k*q3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
+# For Docker
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 
 # Application definition
 
@@ -38,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'flats'
+    'widget_tweaks',
+    'debug_toolbar',
+    'flats',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'flatapp.urls'
@@ -109,6 +117,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# CELERY
+
+RABBIT_USER = os.environ.get("RABBIT_USER")
+RABBIT_PASS = os.environ.get("RABBIT_PASS")
+
+CELERY_BROKER_URL = f"amqp://{RABBIT_USER}:{RABBIT_PASS}@flatrabbit"
+CELERY_RESULT_BACKEND = 'rpc://'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

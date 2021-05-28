@@ -1,3 +1,5 @@
+ARG ENTRY_POINT_SCRIPT
+
 FROM python:3.9-buster
 
 WORKDIR /var/app

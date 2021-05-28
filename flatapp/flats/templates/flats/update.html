@@ -3,9 +3,59 @@
 A Flat
 {% endblock %}
 {% block body %}
+    <br><div class="row g-0 container-fluid">
+      <div class="col-4"><h2>Flat info</h2></div>
+    </div><br>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">Update</button>
+    {% include 'form_snippet.html' with form=form %}
+    <br><button type="submit" class="btn btn-primary">Update flat info</button>
+    <br><br><div class="row g-0 container-fluid">
+      <div class="col-4"><h2>Meters</h2></div>
+      <div class="col-8"><a href="{% url 'meter-create' id %}" class="btn btn-success">+</a></div>
+    </div><br>
+<!--    {% include 'formset_snippet.html' with formset=metersformset meters=meters %}-->
+
+<!--    {{ metersformset.as_p }}-->
+<!--    <br><div><h2>Meter values</h2></div><br>-->
+<!--    {{ metervaluesformset.as_p }}-->
+    {% for meter in flat_meters %}
+      <input type="hidden" name="meter_{{meter.index}}" value="{{ meter.meter.pk }}">
+      <div class="card">
+        <div class="card-header"><div class="row g-0 container-fluid">
+          <div class="col-10"><h5>{{ meter.meter.meter_name }} ({{ meter.meter.metertype_id }})</h5></div>
+          <div class="col-2" align="right"><a type="button" class="btn-close" aria-label="Delete" href="{% url 'meter-delete' meter.meter.pk %}"></a></div>
+        </div></div>
+      <div class="card-body">
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">V1</th>
+          <th scope="col">V2</th>
+          <th scope="col">V3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Today</th>
+          <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v1"></td>
+          <td><input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v2"></td>
+          <td><input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v3"></td>
+        </tr>
+      {% for meter_value in meter.values %}
+        <tr>
+          <th scope="row">{{meter_value.mv_date}}</th>
+          <td>{{meter_value.mv_v1}}</td>
+          <td>{{meter_value.mv_v2}}</td>
+          <td>{{meter_value.mv_v3}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      </table></div></div>
+    <br>
+    {% endfor %}
+    <input type="hidden" name="meters_count" value="{{ meters_count }}">
+    <br><button type="submit" class="btn btn-primary">Update meter values</button>
 </form>
 {% endblock %}

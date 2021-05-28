@@ -32,8 +32,8 @@ class TestFlatUpdateView(TestCase):
 
     def setUp(self):
         print('Tests flat update view setup')
-        self.id = Flat.objects.create(name='test_flat',
-                                      address='Test address',
+        self.id = Flat.objects.create(flat_name='test_flat',
+                                      flat_address='Test address',
                                       electricity_t1=1,
                                       hot_water=1, cold_water=1).id
 

@@ -45,10 +45,20 @@
                 Flats
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/flats/">List</a></li>
-                <li><a class="dropdown-item" href="/create/">Add new</a></li>
+                <li><a class="dropdown-item" href="{% url 'flats' %}">List</a></li>
+                <li><a class="dropdown-item" href="{% url 'flat-create' %}">Add new</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/about/">Help</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Providers
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'provider-create' %}">Create provider</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'metertype-create' %}">Create meter type</a></li>
               </ul>
             </li>
           </ul>
