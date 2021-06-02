@@ -56,7 +56,11 @@
                 Providers
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'providertype-create' %}">Create provider type</a></li>
+                <li><a class="dropdown-item" href="{% url 'providertypes' %}">Provider types list</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'provider-create' %}">Create provider</a></li>
+                <li><a class="dropdown-item" href="{% url 'providers' %}">Providers list</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'metertype-create' %}">Create meter type</a></li>
               </ul>

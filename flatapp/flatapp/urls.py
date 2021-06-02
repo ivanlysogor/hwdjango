@@ -19,7 +19,9 @@ from django.urls import path, include
 from flats.views import index_view, FlatListView, FlatDetailView, \
     AboutTemplateView, FlatCreateView, FlatDeleteView, FlatUpdateView, \
     MeterCreateView, MeterTypeCreateView, MeterValueUpdateView, \
-    MeterDeleteView, ProviderCreateView
+    MeterDeleteView, ProviderCreateView, ProviderTypeCreateView, \
+    ProviderUpdateView, ProviderDeleteView, ProviderListView, \
+    ProviderTypeUpdateView, ProviderTypeListView, ProviderTypeDeleteView
 
 import debug_toolbar
 
@@ -48,6 +50,20 @@ urlpatterns = [
          name='metertype-create'),
     path('provider/create/', ProviderCreateView.as_view(),
          name='provider-create'),
+    path('provider/<int:pk>/', ProviderUpdateView.as_view(),
+         name='provider-update'),
+    path('provider/delete/<int:pk>/', ProviderDeleteView.as_view(),
+         name='provider-delete'),
+    path('providers/', ProviderListView.as_view(),
+         name='providers'),
+    path('providertype/create/', ProviderTypeCreateView.as_view(),
+         name='providertype-create'),
+    path('providertype/<int:pk>/', ProviderTypeUpdateView.as_view(),
+         name='providertype-update'),
+    path('providertype/delete/<int:pk>/', ProviderTypeDeleteView.as_view(),
+         name='providertype-delete'),
+    path('providertypes/', ProviderTypeListView.as_view(),
+         name='providertypes'),
     path('metervalue/update/<int:pk>/', MeterValueUpdateView.as_view(),
          name='metervalue-update'),
     path('about/', AboutTemplateView.as_view(), name='about'),

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+A provider
+{% endblock %}
+{% block body %}
+    <br><div class="row g-0 container-fluid">
+      <div class="col-4"><h2>Provider info</h2></div>
+    </div><br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'form_snippet.html' with form=form %}
+    <br><button type="submit" class="btn btn-primary">Update provider</button>
+</form>
+{% endblock %}

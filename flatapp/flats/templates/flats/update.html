@@ -34,6 +34,7 @@ A Flat
           <th scope="col">V1</th>
           <th scope="col">V2</th>
           <th scope="col">V3</th>
+          <th scope="col">Synced</th>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +43,7 @@ A Flat
           <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v1"></td>
           <td><input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v2"></td>
           <td><input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v3"></td>
+          <td>&nbsp;</td>
         </tr>
       {% for meter_value in meter.values %}
         <tr>
@@ -49,6 +51,7 @@ A Flat
           <td>{{meter_value.mv_v1}}</td>
           <td>{{meter_value.mv_v2}}</td>
           <td>{{meter_value.mv_v3}}</td>
+          <td>{{meter_value.mv_synced}}</td>
         </tr>
       {% endfor %}
       </tbody>

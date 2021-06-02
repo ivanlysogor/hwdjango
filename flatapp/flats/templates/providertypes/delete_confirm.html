@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+Provider type
+{% endblock %}
+{% block body %}
+<h1>{{object.name}}</h1>
+<img src="{{object.kind.image.url}}" width="200px">
+<p></p>
+Are you sure?
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes</button>
+</form>
+{% endblock %}

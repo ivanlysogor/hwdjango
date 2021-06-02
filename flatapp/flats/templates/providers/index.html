@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Providers list
+{% endblock %}
+
+
+{% block body %}
+    <br><div class="row g-0 container-fluid">
+      <div class="col-4"><h2>Providers</h2></div>
+      <div class="col-8"><a href="{% url 'provider-create' %}" class="btn btn-success">+</a></div>
+    </div><br>
+  <div>
+       <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Provider</th>
+          <th scope="col">&nbsp;</th>
+          <th scope="col">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for p in object_list %}
+        <tr>
+          <td scope="row" class="col-10">{{ p.provider_name }}</td>
+          <td class="col-1"><a href="{% url 'provider-update' p.id %}"  class="btn btn-primary">Update</a></td>
+          <td class="col-1"><a href="{% url 'provider-delete' p.id %}"  class="btn btn-danger">Delete</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+  </div>
+{% endblock %}

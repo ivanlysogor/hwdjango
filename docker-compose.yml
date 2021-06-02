@@ -29,18 +29,16 @@ services:
     restart: always
     build:
       context: .
-      args:
-        ENTRY_POINT_SCRIPT: entrypoint.sh
       dockerfile: Dockerfile
     volumes:
       - ./flatapp:/var/app/flatapp
-    command: python flatapp/manage.py runserver 0.0.0.0:8000
     environment:
       PG_USER: ${PG_USER}
       PG_PASS: ${PG_PASS}
-      PG_HOST: flatdb
+      PG_HOST: "flatdb"
       RABBIT_USER: ${RABBIT_USER}
       RABBIT_PASS: ${RABBIT_PASS}
+      ENTRYPOINT_SCRIPT: "entrypoint.sh"
       SQLALCHEMY_DATABASE_URI: "postgresql://${PG_USER}:${PG_PASS}@flatdb/flats"
     ports:
       - 8000:8000
@@ -53,23 +51,19 @@ services:
     restart: always
     build:
       context: .
-      args:
-        ENTRY_POINT_SCRIPT: entrypoint_celery.sh
-      dockerfile: Dockerfile.celery
+      dockerfile: Dockerfile
     volumes:
       - ./flatapp:/var/app/flatapp
     environment:
       PG_USER: ${PG_USER}
       PG_PASS: ${PG_PASS}
-      PG_HOST: flatdb
+      PG_HOST: "flatdb"
       RABBIT_USER: ${RABBIT_USER}
       RABBIT_PASS: ${RABBIT_PASS}
       SQLALCHEMY_DATABASE_URI: "postgresql://${PG_USER}:${PG_PASS}@flatdb/flats"
+      ENTRYPOINT_SCRIPT: "entrypoint_celery.sh"
     ports:
         - "5555:5555"
-    command: bash -c " \
-      cd /var/app/flatapp ; \
-      celery -A flatapp worker -l INFO"
     depends_on:
         - flatrabbit
         - flatdb

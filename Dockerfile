@@ -1,5 +1,3 @@
-ARG ENTRY_POINT_SCRIPT
-
 FROM python:3.9-buster
 
 WORKDIR /var/app
@@ -9,11 +7,10 @@ RUN poetry config virtualenvs.create false
 
 COPY . .
 
-
 RUN poetry install --no-interaction --no-ansi
 
-RUN chmod +x entrypoint.sh
+RUN ["/bin/bash", "-c", "chmod +x *.sh"]
 
 EXPOSE 8000
 
-ENTRYPOINT ["bash", "./entrypoint.sh"]
+ENTRYPOINT ["bash", "-c", "./${ENTRYPOINT_SCRIPT}"]

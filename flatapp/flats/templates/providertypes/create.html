@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+Add a provider type
+{% endblock %}
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'form_snippet.html' with form=form %}
+    <br><button type="submit" class="btn btn-primary">Create</button>
+</form>
+{% endblock %}

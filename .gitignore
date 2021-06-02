@@ -2,3 +2,4 @@
 !.gitlab-ci.yml
 !.gitignore
 __pycache__
+flatapp/tasks
