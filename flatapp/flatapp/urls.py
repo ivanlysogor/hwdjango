@@ -21,7 +21,8 @@ from flats.views import index_view, FlatListView, FlatDetailView, \
     MeterCreateView, MeterTypeCreateView, MeterValueUpdateView, \
     MeterDeleteView, ProviderCreateView, ProviderTypeCreateView, \
     ProviderUpdateView, ProviderDeleteView, ProviderListView, \
-    ProviderTypeUpdateView, ProviderTypeListView, ProviderTypeDeleteView
+    ProviderTypeUpdateView, ProviderTypeListView, ProviderTypeDeleteView, \
+    TasksListView
 
 import debug_toolbar
 
@@ -66,6 +67,8 @@ urlpatterns = [
          name='providertypes'),
     path('metervalue/update/<int:pk>/', MeterValueUpdateView.as_view(),
          name='metervalue-update'),
+    path('taskslist/', TasksListView.as_view(),
+         name='tasks-list'),
     path('about/', AboutTemplateView.as_view(), name='about'),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

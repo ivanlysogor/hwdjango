@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, DetailView, \
     FormView, CreateView, UpdateView, DeleteView
+from django_celery_results.models import TaskResult
 from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory
 from .models import Flat, Meter, MeterType, MeterValues, Provider, \
@@ -8,6 +9,7 @@ from .models import Flat, Meter, MeterType, MeterValues, Provider, \
 from .forms import FlatForm, MeterForm, MeterValueForm, ProviderForm, \
     ProviderTypeForm
 from .tasks import send_meter_values
+from flatapp.celery import app as celery_app
 
 
 def index_view(request):
@@ -248,3 +250,13 @@ class ProviderUpdateView(UpdateView):
             return reverse_lazy('provider-update', kwargs={'pk': kwargs['pk']})
         else:
             return reverse_lazy('provider-update', args=(self.object.id,))
+
+
+
+class TasksListView(ListView):
+    template_name = 'tasks/index.html'
+    ordering = []
+    model = TaskResult
+    queryset = TaskResult.objects.all()[:20]
+    paginate_by = 10
+

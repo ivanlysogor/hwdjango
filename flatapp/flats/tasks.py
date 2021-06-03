@@ -57,11 +57,11 @@ def send_meter_values(self, meter_id, metervalue_id, v1, v2, v3):
             metervalue.mv_synced = True
             metervalue.save()
             logger.info(f"Meter values uploaded to Mosenergosbyt")
-            return True
+            return (True, f"Meter values uploaded to Mosenergosbyt")
         else:
             logger.info(f"Unable to upload meter values to Mosenergosbyt")
-            return False
-    return True
+            return (False, f"Unable to upload meter values to Mosenergosbyt")
+    return (True, f"Meter values uploaded")
 
 @shared_task
 def add(a,b):
