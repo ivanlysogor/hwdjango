@@ -7,9 +7,10 @@ from django.forms import inlineformset_factory
 from .models import Flat, Meter, MeterType, MeterValues, Provider, \
     ProviderType
 from .forms import FlatForm, MeterForm, MeterValueForm, ProviderForm, \
-    ProviderTypeForm
+    ProviderTypeForm, MeterTypeForm
 from .tasks import send_meter_values
 from flatapp.celery import app as celery_app
+from .tasks import extract_param
 
 
 def index_view(request):
@@ -64,17 +65,51 @@ class MeterCreateView(CreateView):
         return super().form_valid(form)
 
 
+class MeterUpdateView(UpdateView):
+    model = Meter
+    template_name = 'meters/update.html'
+    form_class = MeterForm
+    success_url = reverse_lazy('flats')
+
+
+
 class MeterTypeCreateView(CreateView):
     model = MeterType
     fields = '__all__'
     template_name = 'metertypes/create.html'
-    success_url = '/'
+    success_url = reverse_lazy('metertypes')
 
     def post(self, request, *args, **kwargs):
         return super().post(request, args, kwargs)
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+class MeterTypeDeleteView(DeleteView):
+    model = MeterType
+    success_url = reverse_lazy('metertypes')
+    # страница для подтверждения удаления
+    template_name = 'metertypes/delete_confirm.html'
+
+
+class MeterTypeListView(ListView):
+    model = MeterType
+    template_name = 'metertypes/index.html'
+    ordering = ['meter_types.metertype_name']
+
+
+class MeterTypeUpdateView(UpdateView):
+    model = MeterType
+    template_name = 'metertypes/update.html'
+    form_class = MeterTypeForm
+    success_url = reverse_lazy('metertypes')
+
+    def get_success_url(self, **kwargs):
+        if kwargs:
+            return reverse_lazy('metertype-update', kwargs={'pk': kwargs['pk']})
+        else:
+            return reverse_lazy('metertype-update', args=(self.object.id,))
 
 
 class FlatCreateView(CreateView):
@@ -115,9 +150,18 @@ class FlatUpdateView(UpdateView):
         i = 0
         for meter in meters:
             meter_values = MeterValues.objects.filter(meter_id=meter.pk).order_by("-mv_date")[:5]
+            if meter.metertype_id.meter_type_params:
+                num_values = extract_param("values", meter.metertype_id.meter_type_params)
+            else:
+                num_values = 1
+            if num_values == "":
+                num_values = 1
+            else:
+                num_values = int(num_values)
             flat_meters.append({
                 'meter': meter,
                 'index': i,
+                'num_values': num_values,
                 'values': meter_values
             })
             i = i + 1
@@ -136,14 +180,15 @@ class FlatUpdateView(UpdateView):
         for i in range(int(request.POST['meters_count'])):
             if request.POST[f'meter_{i}_v1'] != '':
                 v1 = request.POST[f'meter_{i}_v1']
-                if request.POST[f'meter_{i}_v2'] != '':
-                    v2 = request.POST[f'meter_{i}_v2']
-                else:
-                    v2 = None
-                if request.POST[f'meter_{i}_v3'] != '':
-                    v3 = request.POST[f'meter_{i}_v3']
-                else:
-                    v3 = None
+                v2 = None
+                if f'meter_{i}_v2' in request.POST.keys():
+                    if request.POST[f'meter_{i}_v2'] != '':
+                        v2 = request.POST[f'meter_{i}_v2']
+                v3 = None
+                if f'meter_{i}_v3' in request.POST.keys():
+                    if request.POST[f'meter_{i}_v3'] != '':
+                        v3 = request.POST[f'meter_{i}_v3']
+
                 meter = Meter.objects.get(pk=request.POST[f'meter_{i}'])
                 meter_values = MeterValues(meter_id=meter,
                                            mv_v1=v1,
@@ -230,7 +275,7 @@ class ProviderDeleteView(DeleteView):
     model = Provider
     success_url = reverse_lazy('providers')
     # страница для подтверждения удаления
-    template_name = 'provders/delete_confirm.html'
+    template_name = 'providers/delete_confirm.html'
 
 
 class ProviderListView(ListView):
@@ -257,6 +302,5 @@ class TasksListView(ListView):
     template_name = 'tasks/index.html'
     ordering = []
     model = TaskResult
-    queryset = TaskResult.objects.all()[:20]
     paginate_by = 10
 

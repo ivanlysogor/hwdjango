@@ -319,6 +319,17 @@ python-dateutil = "*"
 requests = "*"
 
 [[package]]
+name = "mosportal"
+version = "0.2.6"
+description = "api для работы с порталом москвы"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "packaging"
 version = "20.9"
 description = "Core utilities for Python packages"
@@ -517,7 +528,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "66b03d383e97f1775cd71f5fd6c38e94ac66c00813f54c026f1f0fa7906341e5"
+content-hash = "667ef4df2e0e6cb06218e9ec6d0bb0a2871de8b59237dcaaf1d6d597759dc1fa"
 
 [metadata.files]
 amqp = [
@@ -664,6 +675,9 @@ more-itertools = [
 ]
 mosenergosbyt = [
     {file = "mosenergosbyt-0.1.16.tar.gz", hash = "sha256:b0b8deab48cc60241ff0d7efa4380a292cc83b596e59b147ec887d0434d9c58b"},
+]
+mosportal = [
+    {file = "mosportal-0.2.6.tar.gz", hash = "sha256:4996dee0164e9e25fdd627e027e36fd2c67895f0d70833f0174d6a2473adb176"},
 ]
 packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},

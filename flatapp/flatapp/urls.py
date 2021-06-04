@@ -22,7 +22,9 @@ from flats.views import index_view, FlatListView, FlatDetailView, \
     MeterDeleteView, ProviderCreateView, ProviderTypeCreateView, \
     ProviderUpdateView, ProviderDeleteView, ProviderListView, \
     ProviderTypeUpdateView, ProviderTypeListView, ProviderTypeDeleteView, \
-    TasksListView
+    TasksListView, MeterTypeUpdateView, MeterTypeDeleteView, MeterTypeListView, \
+    MeterUpdateView
+
 
 import debug_toolbar
 
@@ -45,10 +47,18 @@ urlpatterns = [
          name='meter-create'),
     path('meter/create/<int:pk>/', MeterCreateView.as_view(),
          name='meter-create'),
+    path('meter/update/<int:pk>/', MeterUpdateView.as_view(),
+         name='meter-update'),
     path('meter/delete/<int:pk>/', MeterDeleteView.as_view(),
          name='meter-delete'),
     path('metertype/create/', MeterTypeCreateView.as_view(),
          name='metertype-create'),
+    path('metertype/<int:pk>/', MeterTypeUpdateView.as_view(),
+         name='metertype-update'),
+    path('metertype/delete/<int:pk>/', MeterTypeDeleteView.as_view(),
+         name='metertype-delete'),
+    path('metertypes/', MeterTypeListView.as_view(),
+         name='metertypes'),
     path('provider/create/', ProviderCreateView.as_view(),
          name='provider-create'),
     path('provider/<int:pk>/', ProviderUpdateView.as_view(),

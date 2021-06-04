@@ -23,8 +23,11 @@ A Flat
       <input type="hidden" name="meter_{{meter.index}}" value="{{ meter.meter.pk }}">
       <div class="card">
         <div class="card-header"><div class="row g-0 container-fluid">
-          <div class="col-10"><h5>{{ meter.meter.meter_name }} ({{ meter.meter.metertype_id }})</h5></div>
-          <div class="col-2" align="right"><a type="button" class="btn-close" aria-label="Delete" href="{% url 'meter-delete' meter.meter.pk %}"></a></div>
+        <table><tr>
+          <td scope="row" class="col-10"><h5>{{ meter.meter.meter_name }} ({{ meter.meter.metertype_id }})</h5></td>
+          <td class="col-1"><a href="{% url 'meter-update' meter.meter.pk %}"  class="btn btn-primary">Update</a></td>
+          <td class="col-1"><a href="{% url 'meter-delete' meter.meter.pk %}"  class="btn btn-danger">Delete</a></td>
+        </tr></table>
         </div></div>
       <div class="card-body">
       <table class="table table-striped">
@@ -32,8 +35,8 @@ A Flat
         <tr>
           <th scope="col">Date</th>
           <th scope="col">V1</th>
-          <th scope="col">V2</th>
-          <th scope="col">V3</th>
+          <th scope="col">{% if meter.num_values > 1 %}V2{% else %}&nbsp;{% endif %}</th>
+          <th scope="col">{% if meter.num_values > 2 %}V2{% else %}&nbsp;{% endif %}</th>
           <th scope="col">Synced</th>
         </tr>
       </thead>
@@ -41,17 +44,23 @@ A Flat
         <tr>
           <th scope="row">Today</th>
           <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v1"></td>
-          <td><input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v2"></td>
-          <td><input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v3"></td>
+          <td>{% if meter.num_values > 1 %}<input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v2">{% else %}&nbsp;{% endif %}</td>
+          <td>{% if meter.num_values > 2 %}<input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v3">{% else %}&nbsp;{% endif %}</td>
           <td>&nbsp;</td>
         </tr>
       {% for meter_value in meter.values %}
         <tr>
           <th scope="row">{{meter_value.mv_date}}</th>
           <td>{{meter_value.mv_v1}}</td>
-          <td>{{meter_value.mv_v2}}</td>
-          <td>{{meter_value.mv_v3}}</td>
-          <td>{{meter_value.mv_synced}}</td>
+          <td>{% if meter.num_values > 1 %}{{meter_value.mv_v2}}{% else %}&nbsp;{% endif %}</td>
+          <td>{% if meter.num_values > 2 %}{{meter_value.mv_v3}}{% else %}&nbsp;{% endif %}</td>
+          <td><div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" disabled
+                     {% if meter_value.mv_synced == True %}checked{% endif %}>
+              <label class="form-check-label" for="flexCheckCheckedDisabled">
+                Synced
+              </label>
+          </div></td>
         </tr>
       {% endfor %}
       </tbody>

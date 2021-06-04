@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block title %}
-A Meter update
+A Meter Type
 {% endblock %}
 {% block body %}
-<br><div><h2>A Meter</h2></div><br>
+    <br><div class="row g-0 container-fluid">
+      <div class="col-4"><h2>Meter type</h2></div>
+    </div><br>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% include 'form_snippet.html' with form=form %}
-    <br><button type="submit" class="btn btn-primary">Update</button>
+    <br><button type="submit" class="btn btn-primary">Update meter type</button>
 </form>
 {% endblock %}

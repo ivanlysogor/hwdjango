@@ -19,6 +19,11 @@ class ProviderTypeForm(forms.ModelForm):
         model = ProviderType
         fields = '__all__'
 
+class MeterTypeForm(forms.ModelForm):
+    class Meta:
+        model = MeterType
+        fields = '__all__'
+
 
 class ProviderForm(forms.ModelForm):
     class Meta:

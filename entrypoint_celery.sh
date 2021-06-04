@@ -2,4 +2,4 @@
 
 echo "Running app: Celery"
 cd /var/app/flatapp
-celery -A flatapp worker -l INFO
+celery -A flatapp worker -B -l INFO

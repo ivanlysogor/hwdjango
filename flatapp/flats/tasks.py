@@ -2,6 +2,7 @@
 import time
 import yaml
 from celery import shared_task
+# from celery import task
 from celery.utils.log import get_task_logger
 from .models import MeterType, Meter, ProviderType, Provider, MeterValues
 from mosenergosbyt import Account, Session
@@ -14,6 +15,7 @@ def extract_param(param_name, string):
         return data[param_name]
     else:
         return ""
+
 
 def send_mosenergo_values(meter_id, v1, v2, v3):
     logger.info(f"Sending values to Mosenergo")
@@ -63,6 +65,28 @@ def send_meter_values(self, meter_id, metervalue_id, v1, v2, v3):
             return (False, f"Unable to upload meter values to Mosenergosbyt")
     return (True, f"Meter values uploaded")
 
-@shared_task
-def add(a,b):
-    return a + b
+
+@shared_task(name='sync_meter_values')
+def sync_meter_values():
+    logger.info(f"Syncing meter values")
+    meters = Meter.objects.all()
+    values_parsed = values_send = values_updated = 0
+    for meter in meters:
+        logger.info(f"Parsing meter with id={meter.pk} and "
+                    f"name={meter.meter_name}")
+        meter_value = MeterValues.objects.filter(meter_id=meter).order_by('-mv_date')[0]
+        if meter_value:
+            values_parsed += 1
+            if not meter_value.mv_synced:
+                values_send += 1
+                logger.info(f"Meter value with id={meter_value.pk} is not synced")
+                (result, text) = send_meter_values(meter_id=meter.pk, metervalue_id=meter_value.pk,
+                                  v1=meter_value.mv_v1, v2=meter_value.mv_v2,
+                                  v3=meter_value.mv_v3)
+                if result:
+                    values_updated += 1
+            else:
+                logger.info(f"Meter value with id={meter_value.pk} is synced")
+        else:
+            logger.info(f"Meter value for meter with id={meter.pk} is not exist")
+    return (True, values_parsed, values_send, values_updated)

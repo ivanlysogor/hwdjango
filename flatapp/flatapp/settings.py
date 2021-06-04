@@ -130,12 +130,31 @@ CELERY_RESULT_BACKEND = 'django-db'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TASK_SERIALIZER = 'json'
 
+# Celery Beat
+
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_BEAT_SCHEDULE = {
+    'sync_meter_values_daily': {
+       'task': 'sync_meter_values',
+        # There are 4 ways we can handle time, read further
+        'schedule': 86400.0,
+        # 'schedule': 60.0,
+        # If you're using any arguments
+        # 'args': (‘We don’t need any’,),
+    },
+    # # Executes every Friday at 4pm
+    # 'send-notification-on-friday-afternoon': {
+    #      'task': 'my_app.tasks.send_notification',
+    #      'schedule': crontab(hour=16, day_of_week=5),
+    #     },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
