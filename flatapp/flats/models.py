@@ -1,9 +1,10 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Flat(models.Model):
     flat_name = models.CharField(max_length=128, unique=True)
     flat_address = models.TextField(null=True)
+    users = models.ManyToManyField(User)
 
     def flat_count(self):
         return Flat.objects.count()

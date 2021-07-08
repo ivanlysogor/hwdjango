@@ -34,18 +34,18 @@ A Flat
       <thead>
         <tr>
           <th scope="col">Date</th>
-          <th scope="col">V1</th>
-          <th scope="col">{% if meter.num_values > 1 %}V2{% else %}&nbsp;{% endif %}</th>
-          <th scope="col">{% if meter.num_values > 2 %}V2{% else %}&nbsp;{% endif %}</th>
+          <th scope="col">Value 1</th>
+          <th scope="col">{% if meter.num_values > 1 %}Value 2{% else %}&nbsp;{% endif %}</th>
+          <th scope="col">{% if meter.num_values > 2 %}Value 3{% else %}&nbsp;{% endif %}</th>
           <th scope="col">Synced</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th scope="row">Today</th>
-          <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v1"></td>
-          <td>{% if meter.num_values > 1 %}<input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v2">{% else %}&nbsp;{% endif %}</td>
-          <td>{% if meter.num_values > 2 %}<input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="4" class="form-control" id="meter_{{meter.index}}_v3">{% else %}&nbsp;{% endif %}</td>
+          <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v1"></td>
+          <td>{% if meter.num_values > 1 %}<input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v2">{% else %}&nbsp;{% endif %}</td>
+          <td>{% if meter.num_values > 2 %}<input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v3">{% else %}&nbsp;{% endif %}</td>
           <td>&nbsp;</td>
         </tr>
       {% for meter_value in meter.values %}

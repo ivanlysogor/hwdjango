@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block head %}
+
+<style>
+    label, input {
+        display: block;
+    }
+    span.helptext {
+        display: none;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<br>
+<div class="row g-0 container-fluid">
+    <div class="col-4"><h2>Login</h2></div>
+</div><br>
+<div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <input type="submit" value="Login">
+</form>
+</div>
+<br><a href="{% url 'index' %}">Back to main app</a>
+
+{% endblock %}
