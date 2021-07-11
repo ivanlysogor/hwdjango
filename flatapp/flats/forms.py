@@ -10,6 +10,7 @@ def get_meters_per_flat():
 
 class BasicFlatForm(forms.ModelForm):
     flat_address = forms.CharField(disabled=True, widget=forms.Textarea)
+    flat_name = forms.CharField(disabled=True)
 
     class Meta:
         model = Flat

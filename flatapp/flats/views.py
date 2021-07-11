@@ -29,6 +29,16 @@ class AdminRequiredMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.user.groups.filter(name="admin").exists()
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        admin = False
+        if self.request.user.groups.filter(name="admin").exists():
+            admin = True
+        context.update({
+                'admin': admin,
+            })
+        return context
+
 
 class FlatListView(LoginRequiredMixin, ListView):
     model = Flat
@@ -38,8 +48,18 @@ class FlatListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['contact_info'] = 'ilysogor@gmail.com'
+        admin = False
+        if self.request.user.groups.filter(name="admin").exists():
+            admin = True
+        context.update({
+            'admin': admin,
+        })
         return context
+
+    def get_queryset(self):
+        if self.request.user.groups.filter(name="admin").exists():
+            return Flat.objects.filter().order_by('flats.flat_name')
+        return Flat.objects.filter(users=self.request.user).order_by('flats.flat_name')
 
 
 class AboutTemplateView(TemplateView):
@@ -171,6 +191,13 @@ class FlatUpdateView(UserPassesTestMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
+        admin = False
+        if self.request.user.groups.filter(name="admin").exists():
+            admin = True
+        context.update({
+            'admin': admin,
+        })
+
         flat_meters = []
         meters = Meter.objects.filter(flat_id=self.kwargs['pk'])
         i = 0
@@ -269,7 +296,7 @@ class ProviderTypeDeleteView(AdminRequiredMixin, DeleteView):
     template_name = 'providertypes/delete_confirm.html'
 
 
-class ProviderTypeListView(LoginRequiredMixin, ListView):
+class ProviderTypeListView(AdminRequiredMixin, ListView):
     login_url = reverse_lazy('login')
     model = ProviderType
     template_name = 'providertypes/index.html'
@@ -319,7 +346,7 @@ class ProviderListView(AdminRequiredMixin, ListView):
     ordering = ['providers.provider_name']
 
 
-class ProviderUpdateView(LoginRequiredMixin, UpdateView):
+class ProviderUpdateView(AdminRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Provider
     template_name = 'providers/update.html'

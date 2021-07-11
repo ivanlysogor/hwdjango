@@ -7,14 +7,14 @@
 
 {% block body %}
     <br><div class="row g-0 container-fluid">
-      <div class="col-4"><h2>Flats list</h2></div>
-      <div class="col-8"><a href="{% url 'flat-create' %}" class="btn btn-success">+</a></div>
+      <div class="col-4"><h2>Список квартир</h2></div>
+      <div class="col-8">{%if admin %}<a href="{% url 'flat-create' %}" class="btn btn-success">+</a>{% endif %}</div>
     </div><br>
   <div>
        <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">Flat</th>
+          <th scope="col">Квартира</th>
           <th scope="col">&nbsp;</th>
           <th scope="col">&nbsp;</th>
         </tr>
@@ -23,8 +23,8 @@
       {% for f in object_list %}
         <tr>
           <td scope="row" class="col-10">{{ f.flat_name }}</td>
-          <td class="col-1"><a href="{% url 'flat-update' f.id %}"  class="btn btn-primary">Update</a></td>
-          <td class="col-1"><a href="{% url 'flat-delete' f.id %}"  class="btn btn-danger">Delete</a></td>
+          <td class="col-1"><a href="{% url 'flat-update' f.id %}"  class="btn btn-primary">Обновить</a></td>
+          <td class="col-1">{% if admin %}<a href="{% url 'flat-delete' f.id %}"  class="btn btn-danger">Удалить</a>{% endif %}</td>
         </tr>
       {% endfor %}
       </tbody>

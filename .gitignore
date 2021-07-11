@@ -3,4 +3,7 @@
 !.gitignore
 __pycache__
 flatapp/tasks
-celerybeat-schedule
+flatapp/celerybeat-schedule
+.env
+venv
+venv/*

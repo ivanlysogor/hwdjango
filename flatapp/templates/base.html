@@ -37,47 +37,49 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Flats
+                Квартиры
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'flats' %}">List</a></li>
-                <li><a class="dropdown-item" href="{% url 'flat-create' %}">Add new</a></li>
+                <li><a class="dropdown-item" href="{% url 'flats' %}">Список</a></li>
+                {% if admin %}<li><a class="dropdown-item" href="{% url 'flat-create' %}">Добавить</a></li>{% endif %}
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/about/">Help</a></li>
+                <li><a class="dropdown-item" href="/about/">Помощь</a></li>
+              </ul>
+            </li>
+            {% if admin %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Провайдеры услуг
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'providertype-create' %}">Добавить новый тип провайдера</a></li>
+                <li><a class="dropdown-item" href="{% url 'providertypes' %}">Список типов провайдеров</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'provider-create' %}">Добавить провайдера</a></li>
+                <li><a class="dropdown-item" href="{% url 'providers' %}">Список провайдеров</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'metertype-create' %}">Добавить новый тип счетчика</a></li>
+                <li><a class="dropdown-item" href="{% url 'metertypes' %}">Список типов счетчиков</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Providers
+                Задачи
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'providertype-create' %}">Create provider type</a></li>
-                <li><a class="dropdown-item" href="{% url 'providertypes' %}">Provider types list</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'provider-create' %}">Create provider</a></li>
-                <li><a class="dropdown-item" href="{% url 'providers' %}">Providers list</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'metertype-create' %}">Create meter type</a></li>
-                <li><a class="dropdown-item" href="{% url 'metertypes' %}">Meter types list</a></li>
+                <li><a class="dropdown-item" href="{% url 'tasks-list' %}">Список задач</a></li>
               </ul>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Tasks
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'tasks-list' %}">Tasks list</a></li>
-              </ul>
-            </li>
+            {% endif %}
           </ul>
           <form class="d-flex">
 <!--            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
 <!--            <button class="btn btn-outline-success" type="submit">Search</button>-->
                 <b>{{ user.username|default:'Guest' }}</b>&nbsp;|&nbsp;
                 {% if user.is_authenticated %}
-                  <a href="{% url 'logout' %}">Logout</a>
+                  <a href="{% url 'logout' %}">Выход</a>
                 {% else %}
-                  <a href="{% url 'login' %}">Login</a>
+                  <a href="{% url 'login' %}">Вход</a>
                 {% endif %}
           </form>
         </div>

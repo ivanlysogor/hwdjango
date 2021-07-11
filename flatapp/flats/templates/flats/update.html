@@ -4,15 +4,15 @@ A Flat
 {% endblock %}
 {% block body %}
     <br><div class="row g-0 container-fluid">
-      <div class="col-4"><h2>Flat info</h2></div>
+      <div class="col-4"><h2>Информация о квартире</h2></div>
     </div><br>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% include 'form_snippet.html' with form=form %}
-    <br><button type="submit" class="btn btn-primary">Update flat info</button>
+    <br>{%if admin %}<button type="submit" class="btn btn-primary">Обновить информацию о квартире</button>{% endif %}
     <br><br><div class="row g-0 container-fluid">
-      <div class="col-4"><h2>Meters</h2></div>
-      <div class="col-8"><a href="{% url 'meter-create' id %}" class="btn btn-success">+</a></div>
+      <div class="col-4"><h2>Счетчики</h2></div>
+      <div class="col-8">{%if admin %}<a href="{% url 'meter-create' id %}" class="btn btn-success">+</a>{% endif %}</div>
     </div><br>
 <!--    {% include 'formset_snippet.html' with formset=metersformset meters=meters %}-->
 
@@ -25,24 +25,24 @@ A Flat
         <div class="card-header"><div class="row g-0 container-fluid">
         <table><tr>
           <td scope="row" class="col-10"><h5>{{ meter.meter.meter_name }} ({{ meter.meter.metertype_id }})</h5></td>
-          <td class="col-1"><a href="{% url 'meter-update' meter.meter.pk %}"  class="btn btn-primary">Update</a></td>
-          <td class="col-1"><a href="{% url 'meter-delete' meter.meter.pk %}"  class="btn btn-danger">Delete</a></td>
+          <td class="col-1">{%if admin %}<a href="{% url 'meter-update' meter.meter.pk %}"  class="btn btn-primary">Update</a>{% endif %}</td>
+          <td class="col-1">{%if admin %}<a href="{% url 'meter-delete' meter.meter.pk %}"  class="btn btn-danger">Delete</a>{% endif %}</td>
         </tr></table>
         </div></div>
       <div class="card-body">
       <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Value 1</th>
-          <th scope="col">{% if meter.num_values > 1 %}Value 2{% else %}&nbsp;{% endif %}</th>
-          <th scope="col">{% if meter.num_values > 2 %}Value 3{% else %}&nbsp;{% endif %}</th>
-          <th scope="col">Synced</th>
+          <th scope="col">Дата</th>
+          <th scope="col">Значение</th>
+          <th scope="col">{% if meter.num_values > 1 %}Значение 2{% else %}&nbsp;{% endif %}</th>
+          <th scope="col">{% if meter.num_values > 2 %}Значение 3{% else %}&nbsp;{% endif %}</th>
+          <th scope="col">Показания переданы провайдеру</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row">Today</th>
+          <th scope="row">Сегодня</th>
           <td><input type="text" name="meter_{{meter.index}}_v1" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v1"></td>
           <td>{% if meter.num_values > 1 %}<input type="text" name="meter_{{meter.index}}_v2" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v2">{% else %}&nbsp;{% endif %}</td>
           <td>{% if meter.num_values > 2 %}<input type="text" name="meter_{{meter.index}}_v3" value="" maxlength="6" class="form-control" id="meter_{{meter.index}}_v3">{% else %}&nbsp;{% endif %}</td>
@@ -58,7 +58,7 @@ A Flat
               <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" disabled
                      {% if meter_value.mv_synced == True %}checked{% endif %}>
               <label class="form-check-label" for="flexCheckCheckedDisabled">
-                Synced
+                Переданы
               </label>
           </div></td>
         </tr>
@@ -68,6 +68,6 @@ A Flat
     <br>
     {% endfor %}
     <input type="hidden" name="meters_count" value="{{ meters_count }}">
-    <br><button type="submit" class="btn btn-primary">Update meter values</button>
+    <br><button type="submit" class="btn btn-primary">Ввести показания счетчиков</button>
 </form>
 {% endblock %}

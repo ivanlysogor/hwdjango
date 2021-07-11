@@ -32,7 +32,7 @@ import debug_toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', index_view,
+    path('', FlatListView.as_view(),
          name='index'),
     path('flats/', FlatListView.as_view(),
          name='flats'),
